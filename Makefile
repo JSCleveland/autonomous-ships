@@ -7,15 +7,15 @@ all:
 else
 
 VERSION_MAJOR=	0
-VERSION_MINOR=	3
-VERSION_PATCH=	1
+VERSION_MINOR=	4
+VERSION_PATCH=	0
 VERSION=	$(VERSION_MAJOR).$(VERSION_MINOR).$(VERSION_PATCH)
 DIR_NAME=	Autonomous Ships
 
 JAVA_FILES=	$(shell find data src -name '*.java')
 RESOURCE_DIRS=	data graphics src
 RESOURCE_FILES=	$(foreach extension, csv json png, $(shell find $(RESOURCE_DIRS) -name '*.$(extension)'))
-JAR_FILES=	starfarer.api.jar log4j-1.2.9.jar json.jar lwjgl_util.jar
+JAR_FILES=	starfarer.api.jar log4j-1.2.9.jar json.jar lwjgl_util.jar LazyLib.jar
 #JAR_PATHS=	$(patsubst %,$(STARSECTOR_PATH)/Contents/Resources/Java/%,$(JAR_FILES))
 JAR_PATHS=	$(foreach f, $(JAR_FILES), $(shell find '$(STARSECTOR_PATH)' -name $(f)))
 JAR_CLASSPATH=	$(shell tr ' ' ':' <<< '$(JAR_PATHS)')

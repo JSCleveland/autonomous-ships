@@ -7,6 +7,7 @@ import com.fs.starfarer.api.characters.PersonAPI;
 import com.fs.starfarer.api.combat.AssignmentTargetAPI;
 import com.fs.starfarer.api.combat.CombatAssignmentType;
 import com.fs.starfarer.api.combat.CombatEngineAPI;
+import com.fs.starfarer.api.combat.CombatEntityAPI;
 import com.fs.starfarer.api.combat.CombatFleetManagerAPI;
 import com.fs.starfarer.api.combat.CombatTaskManagerAPI;
 import com.fs.starfarer.api.combat.DeployedFleetMemberAPI;
@@ -34,6 +35,8 @@ import java.util.List;
 import java.util.Map;
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
+import org.lazywizard.lazylib.combat.AIUtils;
+import org.lazywizard.lazylib.MathUtils;
 import org.lwjgl.util.vector.Vector2f;
 
 
@@ -42,7 +45,8 @@ public class AutonomousCommandsPlugin implements EveryFrameCombatPlugin {
 	private static Logger LOG = Global.getLogger(AutonomousCommandsPlugin.class);
 	
 	private static Color TEXT_COLOR = Global.getSettings().getColor("standardTextColor");
-	private static Color SHIP_COLOR = Global.getSettings().getColor("textFriendColor");
+	private static Color FRIEND_COLOR = Global.getSettings().getColor("textFriendColor");
+	private static Color ENEMY_COLOR = Global.getSettings().getColor("textEnemyColor");
 	private static Color MESSAGE_COLOR = Color.CYAN;
 
 	public static final String CONFIG_FILE = "data/config/autonomous-ships.json";
@@ -67,6 +71,33 @@ public class AutonomousCommandsPlugin implements EveryFrameCombatPlugin {
 
 	private CombatEngineAPI engine;
 
+	private static List<ShipAPI> getEnemiesOnMap(CombatEntityAPI entity, ShipAPI.HullSize size) {
+		List<ShipAPI> ships = new ArrayList<>();
+		for (ShipAPI ship : AIUtils.getEnemiesOnMap(entity)) {
+			if (ship.getHullSize() == size) {
+				ships.add(ship);
+			}
+		}
+		return ships;
+	}
+
+	private static ShipAPI getNearestEnemy(CombatEntityAPI entity, ShipAPI.HullSize size) {
+		ShipAPI closest = null;
+		float closestDistance = Float.MAX_VALUE;
+
+		for (ShipAPI tmp : getEnemiesOnMap(entity, size))
+		{
+			float distance = MathUtils.getDistance(tmp, entity.getLocation());
+			if (distance < closestDistance)
+			{
+				closest = tmp;
+				closestDistance = distance;
+			}
+		}
+
+		return closest;
+	}
+
 	@Override
 	public void advance(float amount, List<InputEventAPI> events) {
 		if (engine == null) return;
@@ -89,6 +120,33 @@ public class AutonomousCommandsPlugin implements EveryFrameCombatPlugin {
 			if (ship.getShipAI() == null) continue;
 			if (!ship.isAlive()) continue;
 			ShipVariantAPI variant = ship.getVariant();
+
+			// Attack fighters.
+			if (variant.hasHullMod("autonomous_attack_fighters") && engine.isFleetsInContact()) {
+				CombatTaskManagerAPI taskManager = fleetManager.getTaskManager(false);
+				CombatFleetManagerAPI.AssignmentInfo assignment = taskManager.getAssignmentFor(ship);
+				if (assignment == null) {
+					ShipAPI fighter = getNearestEnemy(ship, ShipAPI.HullSize.FIGHTER);
+					if (fighter != null) {
+						CombatFleetManagerAPI enemyFleet = engine.getFleetManager(FleetSide.ENEMY);
+						DeployedFleetMemberAPI deployedFighterWing = enemyFleet.getDeployedFleetMember(fighter);
+						addShipMessage(member, MESSAGE_COLOR, "engaging ", ENEMY_COLOR, fighter.getHullSpec().getHullName() + " wing");
+						CombatFleetManagerAPI.AssignmentInfo intercept = taskManager.createAssignment(CombatAssignmentType.INTERCEPT, (AssignmentTargetAPI)deployedFighterWing, false);
+						taskManager.giveAssignment(fleetManager.getDeployedFleetMember(ship), intercept, false);
+						continue;
+					}
+				}
+			}
+
+			// Retreat when idle (no current order).
+			if (variant.hasHullMod("autonomous_retreat_idle") && engine.isFleetsInContact()) {
+				CombatTaskManagerAPI taskManager = fleetManager.getTaskManager(false);
+				CombatFleetManagerAPI.AssignmentInfo assignment = taskManager.getAssignmentFor(ship);
+				if (assignment == null) {
+					orderRetreat(fleetManager, ship, "no order to follow");
+					continue;
+				}
+			}
 
 			// Retreat when no missile left.
 			if (variant.hasHullMod("autonomous_retreat_no_missile")) {
@@ -135,6 +193,24 @@ public class AutonomousCommandsPlugin implements EveryFrameCombatPlugin {
 		}
 	}
 
+	private static String getShipName(FleetMemberAPI member) {
+		if (member.isFighterWing()) {
+			return member.getHullSpec().getHullName() + " wing";
+		}
+		return member.getShipName() + " (" + member.getHullSpec().getHullName() + "-class)";
+	}
+
+	private static void addShipMessage(FleetMemberAPI member, Object... params) {
+		Object[] prefix = new Object[]{
+			member,
+			FRIEND_COLOR, getShipName(member),
+			TEXT_COLOR, ": "};
+		Object[] all = new Object[prefix.length + params.length];
+		System.arraycopy(prefix, 0, all, 0, prefix.length);
+		System.arraycopy(params, 0, all, prefix.length, params.length);
+		Global.getCombatEngine().getCombatUI().addMessage(1, all);
+	}
+
 	private static void orderRetreat(CombatFleetManagerAPI fleetManager, ShipAPI ship, String reason) {
 		CombatTaskManagerAPI taskManager = fleetManager.getTaskManager(false);
 		CombatFleetManagerAPI.AssignmentInfo assignment = taskManager.getAssignmentFor(ship);
@@ -142,7 +218,8 @@ public class AutonomousCommandsPlugin implements EveryFrameCombatPlugin {
 			LOG.info(ship.getName() + " retreating (" + reason + ")");
 			String message = reason + " - retreating ...";
 			DeployedFleetMemberAPI member = fleetManager.getDeployedFleetMember(ship);
-			Global.getCombatEngine().getCombatUI().addMessage(1, member, SHIP_COLOR, ship.getName(), TEXT_COLOR, ": ", MESSAGE_COLOR, message);
+			//Global.getCombatEngine().getCombatUI().addMessage(1, member, FRIEND_COLOR, ship.getName(), TEXT_COLOR, ": ", MESSAGE_COLOR, message);
+			addShipMessage(member.getMember(), MESSAGE_COLOR, message);
 			taskManager.orderRetreat(member, false);
 		}
 	}

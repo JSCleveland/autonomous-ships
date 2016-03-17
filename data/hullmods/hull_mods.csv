@@ -6,3 +6,7 @@ name,id,unlocked,hidden,cost_frigate,cost_dest,cost_cruiser,cost_capital,script,
 "[Auto] Retreat on degraded performance",autonomous_retreat_cr_below_100,TRUE,,0,0,0,0,org.tc.autonomous.RetreatCrBelow100HullMod,"Forces the ship to retreat when it has exceeded its peak performance time",graphics/autonomous/command-blue.png
 "[Auto] Retreat on low performance",autonomous_retreat_cr_below_60,TRUE,,0,0,0,0,org.tc.autonomous.RetreatCrBelow60HullMod,"Forces the ship to retreat when it has exceeded its peak performance time and it is below %s%% Combat Readiness",graphics/autonomous/command-blue.png
 "[Auto] Retreat on possible malfunction",autonomous_retreat_cr_below_40,TRUE,,0,0,0,0,org.tc.autonomous.RetreatCrBelow40HullMod,"Forces the ship to retreat when it has exceeded its peak performance time and it is below %s%% Combat Readiness",graphics/autonomous/command-blue.png
+"[Auto] Retreat when idle",autonomous_retreat_idle,TRUE,,0,0,0,0,com.fs.starfarer.api.combat.BaseHullMod,"Forces the ship to retreat when it does not have any specific order to follow.
+
+This will only happen after the first contact with the enemy fleet.",graphics/icons/skills/advanced_tactics.png
+"[Auto] Attack figthers",autonomous_attack_fighters,TRUE,,0,0,0,0,com.fs.starfarer.api.combat.BaseHullMod,"The ship will attack fighters when it has no other order to follow.",graphics/icons/skills/coordinated_maneuvers.png
