@@ -6,7 +6,10 @@ all:
 	@false
 else
 
-VERSION=	0.3.0
+VERSION_MAJOR=	0
+VERSION_MINOR=	3
+VERSION_PATCH=	1
+VERSION=	$(VERSION_MAJOR).$(VERSION_MINOR).$(VERSION_PATCH)
 DIR_NAME=	Autonomous Ships
 
 JAVA_FILES=	$(shell find data src -name '*.java')
@@ -31,10 +34,13 @@ jars/org.tc.autonomous.jar: $(JAVA_FILES)
 	jar cvf $@ -C classes .
 
 mod_info.json: mod_info.json.template
-	@mkdir -p -v 'dist/$(DIR_NAME)'
-	cat '$<' | sed 's/"version":".*",/"version":"$(VERSION)",/' > '$@'
+	cat '$<' | sed 's/%%VERSION%%/$(VERSION)/' > '$@'
 
-$(ZIP_FILE): jars/org.tc.autonomous.jar $(RESOURCE_FILES) mod_info.json $(JAVA_FILES)
+autonomous_ships.version: autonomous_ships.version.template
+	cat '$<' | sed 's/%%VERSION_MAJOR%%/$(VERSION_MAJOR)/ ; s/%%VERSION_MINOR%%/$(VERSION_MINOR)/ ; s/%%VERSION_PATCH%%/$(VERSION_PATCH)/' > '$@'
+
+$(ZIP_FILE): jars/org.tc.autonomous.jar $(RESOURCE_FILES) mod_info.json autonomous_ships.version $(JAVA_FILES)
+	@rm -rf 'dist/$(DIR_NAME)'
 	@mkdir -p -v 'dist/$(DIR_NAME)'
 	@echo $+ | xargs -n 1 dirname | sort -u | while read f ; do mkdir -p -v "dist/$(DIR_NAME)/$${f}" ; done
 	@for f in $+ ; do cp -v "$${f}" "dist/$(DIR_NAME)/$${f}" ; done
@@ -44,8 +50,8 @@ $(ZIP_FILE): jars/org.tc.autonomous.jar $(RESOURCE_FILES) mod_info.json $(JAVA_F
 deploy: $(ZIP_FILE)
 	unzip -o -d '$(STARSECTOR_PATH)/mods/' '$<'
 
-upload: $(ZIP_FILE)
-	s3cmd put '$<' s3://download.trancecode.org/starsector/autonomous-ships/ --acl-public
+upload: $(ZIP_FILE) autonomous_ships.version
+	s3cmd put $+ s3://download.trancecode.org/starsector/autonomous-ships/ --acl-public
 
 clean:
 	@rm -rfv classes jars dist $(ZIP_FILE)

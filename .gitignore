@@ -1,2 +1,8 @@
+mod_info.json
 user.mk
 .DS_Store
+autonomous_ships.version
+*.zip
+classes/**
+dist/**
+jars/**
