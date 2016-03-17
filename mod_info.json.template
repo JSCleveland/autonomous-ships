@@ -1,0 +1,11 @@
+{
+    "id":"autonomous_ships", # internal id
+    "name":"Autonomous ships", # displayed to the player
+    "author":"hqz",
+    "version":"0.0.0",
+    "description":"Allows the player to assign automated ship commands as hullmods",
+    "gameVersion":"0.7.2a",
+    "totalConversion":"false",
+    "jars":["jars/org.tc.autonomous.jar"],
+    "replace":[],
+}

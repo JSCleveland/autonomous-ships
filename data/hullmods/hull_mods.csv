@@ -1,0 +1,8 @@
+name,id,unlocked,hidden,cost_frigate,cost_dest,cost_cruiser,cost_capital,script,desc,sprite
+"[Auto] Retreat on hull damage I",autonomous_retreat_1,TRUE,,0,0,0,0,org.tc.autonomous.RetreatCommand1HullMod,"Forces the ship to retreat when falling below %s%% hull integrity",graphics/autonomous/command-blue.png
+"[Auto] Retreat on hull damage II",autonomous_retreat_2,TRUE,,0,0,0,0,org.tc.autonomous.RetreatCommand2HullMod,"Forces the ship to retreat when falling below %s%% hull integrity",graphics/autonomous/command-blue.png
+"[Auto] Retreat on hull damage III",autonomous_retreat_3,TRUE,,0,0,0,0,org.tc.autonomous.RetreatCommand3HullMod,"Forces the ship to retreat when falling below %s%% hull integrity",graphics/autonomous/command-blue.png
+"[Auto] Retreat when no missile left",autonomous_retreat_no_missile,TRUE,,0,0,0,0,com.fs.starfarer.api.combat.BaseHullMod,"Forces the ship to retreat when it does not have any missile left",graphics/autonomous/command-blue.png
+"[Auto] Retreat on degraded performance",autonomous_retreat_cr_below_100,TRUE,,0,0,0,0,org.tc.autonomous.RetreatCrBelow100HullMod,"Forces the ship to retreat when it has exceeded its peak performance time",graphics/autonomous/command-blue.png
+"[Auto] Retreat on low performance",autonomous_retreat_cr_below_60,TRUE,,0,0,0,0,org.tc.autonomous.RetreatCrBelow60HullMod,"Forces the ship to retreat when it has exceeded its peak performance time and it is below %s%% Combat Readiness",graphics/autonomous/command-blue.png
+"[Auto] Retreat on possible malfunction",autonomous_retreat_cr_below_40,TRUE,,0,0,0,0,org.tc.autonomous.RetreatCrBelow40HullMod,"Forces the ship to retreat when it has exceeded its peak performance time and it is below %s%% Combat Readiness",graphics/autonomous/command-blue.png

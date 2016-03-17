@@ -1,0 +1,5 @@
+{
+	"plugins":{
+		"AutonomousCommandsPlugin":"org.tc.autonomous.AutonomousCommandsPlugin",
+	},
+}
