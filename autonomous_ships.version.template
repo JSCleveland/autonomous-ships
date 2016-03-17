@@ -1,0 +1,11 @@
+{
+    "masterVersionFile":"http://download.trancecode.org.s3.amazonaws.com/starsector/autonomous-ships/autonomous_ships.version",
+    "modName":"Autonomous ships",
+    "modThreadId":10856,
+    "modVersion":
+    {
+        "major":%%VERSION_MAJOR%%,
+        "minor":%%VERSION_MINOR%%,
+        "patch":%%VERSION_PATCH%%,
+    }
+}
