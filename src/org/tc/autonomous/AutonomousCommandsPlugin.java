@@ -130,9 +130,16 @@ public class AutonomousCommandsPlugin implements EveryFrameCombatPlugin {
 					if (fighter != null) {
 						CombatFleetManagerAPI enemyFleet = engine.getFleetManager(FleetSide.ENEMY);
 						DeployedFleetMemberAPI deployedFighterWing = enemyFleet.getDeployedFleetMember(fighter);
-						addShipMessage(member, MESSAGE_COLOR, "engaging ", ENEMY_COLOR, fighter.getHullSpec().getHullName() + " wing");
 						CombatFleetManagerAPI.AssignmentInfo intercept = taskManager.createAssignment(CombatAssignmentType.INTERCEPT, (AssignmentTargetAPI)deployedFighterWing, false);
-						taskManager.giveAssignment(fleetManager.getDeployedFleetMember(ship), intercept, false);
+            if (intercept != null) {
+              taskManager.giveAssignment(fleetManager.getDeployedFleetMember(ship), intercept, false);
+              assignment = taskManager.getAssignmentFor(ship);
+              if (assignment != null && assignment.getType() == CombatAssignmentType.INTERCEPT) {
+                addShipMessage(member, MESSAGE_COLOR, "engaging ", ENEMY_COLOR, fighter.getHullSpec().getHullName() + " wing");
+              } else {
+                LOG.warn("could not give an intercept assignment to " + ship);
+              }
+            }
 						continue;
 					}
 				}
