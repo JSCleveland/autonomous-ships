@@ -2,42 +2,42 @@ package org.tc.autonomous;
 
 import com.fs.starfarer.api.GameState;
 import com.fs.starfarer.api.Global;
-import com.fs.starfarer.api.campaign.CargoAPI.CrewXPLevel;
-import com.fs.starfarer.api.characters.PersonAPI;
-import com.fs.starfarer.api.combat.AssignmentTargetAPI;
+//import com.fs.starfarer.api.characters.PersonAPI;
+//import com.fs.starfarer.api.combat.AssignmentTargetAPI;
 import com.fs.starfarer.api.combat.CombatAssignmentType;
 import com.fs.starfarer.api.combat.CombatEngineAPI;
-import com.fs.starfarer.api.combat.CombatEntityAPI;
+//import com.fs.starfarer.api.combat.CombatEntityAPI;
 import com.fs.starfarer.api.combat.CombatFleetManagerAPI;
 import com.fs.starfarer.api.combat.CombatTaskManagerAPI;
 import com.fs.starfarer.api.combat.DeployedFleetMemberAPI;
 import com.fs.starfarer.api.combat.EveryFrameCombatPlugin;
 import com.fs.starfarer.api.combat.ShipAPI;
-import com.fs.starfarer.api.combat.ShipHullSpecAPI.ShipTypeHints;
-import com.fs.starfarer.api.combat.ShipwideAIFlags;
-import com.fs.starfarer.api.combat.ShipwideAIFlags.AIFlags;
+//import com.fs.starfarer.api.combat.ShipHullSpecAPI.ShipTypeHints;
+//import com.fs.starfarer.api.combat.ShipwideAIFlags;
+//import com.fs.starfarer.api.combat.ShipwideAIFlags.AIFlags;
 import com.fs.starfarer.api.combat.ShipVariantAPI;
 import com.fs.starfarer.api.combat.ViewportAPI;
 import com.fs.starfarer.api.combat.WeaponAPI;
-import com.fs.starfarer.api.fleet.FleetGoal;
+//import com.fs.starfarer.api.fleet.FleetGoal;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.input.InputEventAPI;
 import com.fs.starfarer.api.mission.FleetSide;
-import com.fs.starfarer.api.util.IntervalUtil;
-import com.fs.starfarer.api.util.Misc;
-import com.fs.starfarer.api.util.WeightedRandomPicker;
+//import com.fs.starfarer.api.util.IntervalUtil;
+//import com.fs.starfarer.api.util.Misc;
+//import com.fs.starfarer.api.util.WeightedRandomPicker;
 import java.awt.Color;
-import java.io.IOException;
+//import java.io.IOException;
 import java.util.Arrays;
-import java.util.ArrayList;
+//import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
-import org.lazywizard.lazylib.combat.AIUtils;
-import org.lazywizard.lazylib.MathUtils;
-import org.lwjgl.util.vector.Vector2f;
+//import org.lazywizard.lazylib.combat.AIUtils;
+//import org.lazywizard.lazylib.MathUtils;
+//import org.lazywizard.lazylib.MathUtils;
+//import org.lwjgl.util.vector.Vector2f;
 
 
 public class AutonomousCommandsPlugin implements EveryFrameCombatPlugin {
@@ -46,7 +46,7 @@ public class AutonomousCommandsPlugin implements EveryFrameCombatPlugin {
 	
 	private static Color TEXT_COLOR = Global.getSettings().getColor("standardTextColor");
 	private static Color FRIEND_COLOR = Global.getSettings().getColor("textFriendColor");
-	private static Color ENEMY_COLOR = Global.getSettings().getColor("textEnemyColor");
+	//private static Color ENEMY_COLOR = Global.getSettings().getColor("textEnemyColor");
 	private static Color MESSAGE_COLOR = Color.CYAN;
 
 	public static final String CONFIG_FILE = "data/config/autonomous-ships.json";
@@ -71,7 +71,7 @@ public class AutonomousCommandsPlugin implements EveryFrameCombatPlugin {
 
 	private CombatEngineAPI engine;
 
-	private static List<ShipAPI> getEnemiesOnMap(CombatEntityAPI entity, ShipAPI.HullSize size) {
+	/*private static List<ShipAPI> getEnemiesOnMap(CombatEntityAPI entity, ShipAPI.HullSize size) {
 		List<ShipAPI> ships = new ArrayList<>();
 		for (ShipAPI ship : AIUtils.getEnemiesOnMap(entity)) {
 			if (ship.getHullSize() == size) {
@@ -79,9 +79,9 @@ public class AutonomousCommandsPlugin implements EveryFrameCombatPlugin {
 			}
 		}
 		return ships;
-	}
+	}*/
 
-	private static ShipAPI getNearestEnemy(CombatEntityAPI entity, ShipAPI.HullSize size) {
+	/*private static ShipAPI getNearestEnemy(CombatEntityAPI entity, ShipAPI.HullSize size) {
 		ShipAPI closest = null;
 		float closestDistance = Float.MAX_VALUE;
 
@@ -96,7 +96,7 @@ public class AutonomousCommandsPlugin implements EveryFrameCombatPlugin {
 		}
 
 		return closest;
-	}
+	}*/
 
 	@Override
 	public void advance(float amount, List<InputEventAPI> events) {
@@ -122,7 +122,8 @@ public class AutonomousCommandsPlugin implements EveryFrameCombatPlugin {
 			ShipVariantAPI variant = ship.getVariant();
 
 			// Attack fighters.
-			if (variant.hasHullMod("autonomous_attack_fighters") && engine.isFleetsInContact()) {
+			// Potentially outdated with fighter changes in 0.8  --NightKev
+			/*if (variant.hasHullMod("autonomous_attack_fighters") && engine.isFleetsInContact()) {
 				CombatTaskManagerAPI taskManager = fleetManager.getTaskManager(false);
 				CombatFleetManagerAPI.AssignmentInfo assignment = taskManager.getAssignmentFor(ship);
 				if (assignment == null) {
@@ -143,7 +144,7 @@ public class AutonomousCommandsPlugin implements EveryFrameCombatPlugin {
 						continue;
 					}
 				}
-			}
+			}*/
 
 			// Retreat when idle (no current order).
 			if (variant.hasHullMod("autonomous_retreat_idle") && engine.isFleetsInContact()) {
@@ -222,12 +223,13 @@ public class AutonomousCommandsPlugin implements EveryFrameCombatPlugin {
 		CombatTaskManagerAPI taskManager = fleetManager.getTaskManager(false);
 		CombatFleetManagerAPI.AssignmentInfo assignment = taskManager.getAssignmentFor(ship);
 		if (assignment == null || assignment.getType() != CombatAssignmentType.RETREAT) {
-			LOG.info(ship.getName() + " retreating (" + reason + ")");
+			LOG.info(ship.getName() + " retreating [defensive] (" + reason + ")");
 			String message = reason + " - retreating ...";
 			DeployedFleetMemberAPI member = fleetManager.getDeployedFleetMember(ship);
 			//Global.getCombatEngine().getCombatUI().addMessage(1, member, FRIEND_COLOR, ship.getName(), TEXT_COLOR, ": ", MESSAGE_COLOR, message);
 			addShipMessage(member.getMember(), MESSAGE_COLOR, message);
-			taskManager.orderRetreat(member, false);
+			// TODO: Change retreat type based on user preference
+			taskManager.orderRetreat(member, false, false);
 		}
 	}
 
