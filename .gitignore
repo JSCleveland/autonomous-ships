@@ -6,3 +6,6 @@ autonomous_ships.version
 classes/**
 dist/**
 jars/**
+autonomous-ships.iml
+*.sh
+.idea/**

@@ -2,7 +2,7 @@
 	# Auto retreat commands.
 	# The number indicates the hull integrity level below which the ship
 	# will retreat.
-	"autonomous_retreat_1":0.3,
-	"autonomous_retreat_2":0.6,
-	"autonomous_retreat_3":0.9,
+	"autonomous_retreat_hull_1":0.3,
+	"autonomous_retreat_hull_2":0.6,
+	"autonomous_retreat_hull_3":0.9,
 }

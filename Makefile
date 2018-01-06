@@ -8,7 +8,7 @@ else
 
 VERSION_MAJOR=	0
 VERSION_MINOR=	5
-VERSION_PATCH=	0
+VERSION_PATCH=	1
 VERSION=	$(VERSION_MAJOR).$(VERSION_MINOR).$(VERSION_PATCH)
 DIR_NAME=	Autonomous Ships
 
@@ -54,6 +54,6 @@ upload: $(ZIP_FILE) autonomous_ships.version
 	s3cmd put $+ s3://download.trancecode.org/starsector/autonomous-ships/ --acl-public
 
 clean:
-	@rm -rfv classes jars dist $(ZIP_FILE)
+	@rm -rfv classes jars dist $(ZIP_FILE) mod_info.json autonomous_ships.version
 
 endif

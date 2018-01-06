@@ -4,15 +4,17 @@ import com.fs.starfarer.api.combat.BaseHullMod;
 import com.fs.starfarer.api.combat.ShipAPI;
 
 public abstract class AbstractRetreatCommandHullMod extends BaseHullMod {
+	private static final String PREFIX = AutonomousCommandsPlugin.RETREAT_COMMAND_HULL_PREFIX;
+
 	private int id;
 
-	protected AbstractRetreatCommandHullMod(int id) {
+	AbstractRetreatCommandHullMod(int id) {
 		this.id = id;
 	}
 
 	public boolean isApplicableToShip(ShipAPI ship) {  
-		for (String hullMod : AutonomousCommandsPlugin.retreatHullMods.keySet()) {
-			if (ship.getVariant().hasHullMod(hullMod)) {
+		for (String hullMod : ship.getVariant().getHullMods()) {
+			if (hullMod.startsWith(PREFIX) && !hullMod.equals(PREFIX + id)) {
 				return false;
 			}
 		}
@@ -20,7 +22,7 @@ public abstract class AbstractRetreatCommandHullMod extends BaseHullMod {
 	}
 
 	public String getDescriptionParam(int index, ShipAPI.HullSize hullSize) {
-		double ratio = AutonomousCommandsPlugin.retreatHullMods.get(AutonomousCommandsPlugin.RETREAT_COMMAND_PREFIX + id);
+		double ratio = AutonomousCommandsPlugin.retreatHullMods.get(PREFIX + id);
 		int percent = (int)(ratio * 100.0);
 		return Integer.toString(percent);
 	}

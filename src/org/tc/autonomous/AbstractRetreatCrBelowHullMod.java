@@ -8,13 +8,13 @@ public abstract class AbstractRetreatCrBelowHullMod extends BaseHullMod {
 
 	private int threshold;
 
-	protected AbstractRetreatCrBelowHullMod(int threshold) {
+	AbstractRetreatCrBelowHullMod(int threshold) {
 		this.threshold = threshold;
 	}
 
 	public boolean isApplicableToShip(ShipAPI ship) {  
 		for (String hullMod : ship.getVariant().getHullMods()) {
-			if (hullMod.startsWith(PREFIX)) {
+			if (hullMod.startsWith(PREFIX) && !hullMod.equals(PREFIX + threshold)) {
 				return false;
 			}
 		}

@@ -50,7 +50,7 @@ public class AutonomousCommandsPlugin implements EveryFrameCombatPlugin {
 	private static Color MESSAGE_COLOR = Color.CYAN;
 
 	public static final String CONFIG_FILE = "data/config/autonomous-ships.json";
-	public static final String RETREAT_COMMAND_PREFIX = "autonomous_retreat_";
+	public static final String RETREAT_COMMAND_HULL_PREFIX = "autonomous_retreat_hull_";
 
 	public static Map<String, Double> retreatHullMods = new HashMap<>();
 	static {
@@ -58,7 +58,7 @@ public class AutonomousCommandsPlugin implements EveryFrameCombatPlugin {
 			LOG.info("Loading autonomous commands configuration from " + CONFIG_FILE + " ...");
 			JSONObject settings = Global.getSettings().loadJSON(CONFIG_FILE);
 			for (int i = 1; i <= 3; i++) {
-				String key = RETREAT_COMMAND_PREFIX + i;
+				String key = RETREAT_COMMAND_HULL_PREFIX + i;
 				double value = settings.getDouble(key);
 				retreatHullMods.put(key, value);
 			}
