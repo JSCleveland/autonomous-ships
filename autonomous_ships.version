@@ -4,8 +4,8 @@
     "modThreadId":10856,
     "modVersion":
     {
-        "major":%%VERSION_MAJOR%%,
-        "minor":%%VERSION_MINOR%%,
-        "patch":%%VERSION_PATCH%%,
+        "major":0,
+        "minor":5,
+        "patch":1,
     }
 }
