@@ -2,42 +2,26 @@ package org.tc.autonomous;
 
 import com.fs.starfarer.api.GameState;
 import com.fs.starfarer.api.Global;
-//import com.fs.starfarer.api.characters.PersonAPI;
-//import com.fs.starfarer.api.combat.AssignmentTargetAPI;
 import com.fs.starfarer.api.combat.CombatAssignmentType;
 import com.fs.starfarer.api.combat.CombatEngineAPI;
-//import com.fs.starfarer.api.combat.CombatEntityAPI;
 import com.fs.starfarer.api.combat.CombatFleetManagerAPI;
 import com.fs.starfarer.api.combat.CombatTaskManagerAPI;
 import com.fs.starfarer.api.combat.DeployedFleetMemberAPI;
 import com.fs.starfarer.api.combat.EveryFrameCombatPlugin;
 import com.fs.starfarer.api.combat.ShipAPI;
-//import com.fs.starfarer.api.combat.ShipHullSpecAPI.ShipTypeHints;
-//import com.fs.starfarer.api.combat.ShipwideAIFlags;
-//import com.fs.starfarer.api.combat.ShipwideAIFlags.AIFlags;
 import com.fs.starfarer.api.combat.ShipVariantAPI;
 import com.fs.starfarer.api.combat.ViewportAPI;
 import com.fs.starfarer.api.combat.WeaponAPI;
-//import com.fs.starfarer.api.fleet.FleetGoal;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.input.InputEventAPI;
 import com.fs.starfarer.api.mission.FleetSide;
-//import com.fs.starfarer.api.util.IntervalUtil;
-//import com.fs.starfarer.api.util.Misc;
-//import com.fs.starfarer.api.util.WeightedRandomPicker;
 import java.awt.Color;
-//import java.io.IOException;
 import java.util.Arrays;
-//import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
-//import org.lazywizard.lazylib.combat.AIUtils;
-//import org.lazywizard.lazylib.MathUtils;
-//import org.lazywizard.lazylib.MathUtils;
-//import org.lwjgl.util.vector.Vector2f;
 
 
 public class AutonomousCommandsPlugin implements EveryFrameCombatPlugin {
