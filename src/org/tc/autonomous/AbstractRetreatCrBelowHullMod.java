@@ -21,6 +21,12 @@ public abstract class AbstractRetreatCrBelowHullMod extends BaseHullMod {
 		return true;
 	}
 
+	@Override
+	public String getUnapplicableReason(ShipAPI ship) {
+		return "Retreat (CR) hullmods are mutually exclusive";
+	}
+
+	@Override
 	public String getDescriptionParam(int index, ShipAPI.HullSize hullSize) {
 		return Integer.toString(threshold);
 	}

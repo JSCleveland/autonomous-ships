@@ -33,7 +33,7 @@ public class AutonomousCommandsPlugin implements EveryFrameCombatPlugin {
 	//private static Color ENEMY_COLOR = Global.getSettings().getColor("textEnemyColor");
 	private static Color MESSAGE_COLOR = Color.CYAN;
 
-	public static final String CONFIG_FILE = "data/config/autonomous-ships.json";
+	private static final String CONFIG_FILE = "data/config/autonomous-ships.json";
 	public static final String RETREAT_COMMAND_HULL_PREFIX = "autonomous_retreat_hull_";
 
 	public static Map<String, Double> retreatHullMods = new HashMap<>();

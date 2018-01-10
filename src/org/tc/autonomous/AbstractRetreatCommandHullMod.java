@@ -12,6 +12,7 @@ public abstract class AbstractRetreatCommandHullMod extends BaseHullMod {
 		this.id = id;
 	}
 
+	@Override
 	public boolean isApplicableToShip(ShipAPI ship) {  
 		for (String hullMod : ship.getVariant().getHullMods()) {
 			if (hullMod.startsWith(PREFIX) && !hullMod.equals(PREFIX + id)) {
@@ -21,6 +22,12 @@ public abstract class AbstractRetreatCommandHullMod extends BaseHullMod {
 		return true;
 	}
 
+	@Override
+	public String getUnapplicableReason(ShipAPI ship) {
+		return "Retreat (hull) hullmods are mutually exclusive";
+	}
+
+	@Override
 	public String getDescriptionParam(int index, ShipAPI.HullSize hullSize) {
 		double ratio = AutonomousCommandsPlugin.retreatHullMods.get(PREFIX + id);
 		int percent = (int)(ratio * 100.0);

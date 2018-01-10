@@ -8,4 +8,5 @@
     "totalConversion":"false",
     "jars":["jars/org.tc.autonomous.jar"],
     "replace":[],
+    "modPlugin":"org.tc.autonomous.AutonomousBasePlugin"
 }

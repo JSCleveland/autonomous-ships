@@ -26,9 +26,4 @@ public abstract class AbstractPersonalityHullMod extends BaseHullMod {
     public String getUnapplicableReason(ShipAPI ship) {
         return "Personality hullmods are mutually exclusive";
     }
-
-    @Override
-    public void applyEffectsAfterShipCreation(ShipAPI ship, String id) {
-        ship.getCaptain().setPersonality(personality);
-    }
 }
