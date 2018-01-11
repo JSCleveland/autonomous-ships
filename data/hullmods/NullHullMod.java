@@ -1,6 +1,0 @@
-package data.hullmods;
-
-import com.fs.starfarer.api.combat.BaseHullMod;
-
-public class NullHullMod extends BaseHullMod {
-}

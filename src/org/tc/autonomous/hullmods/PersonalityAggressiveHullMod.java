@@ -1,4 +1,4 @@
-package org.tc.autonomous;
+package org.tc.autonomous.hullmods;
 
 public class PersonalityAggressiveHullMod extends AbstractPersonalityHullMod {
     public PersonalityAggressiveHullMod() {

@@ -1,4 +1,4 @@
-package org.tc.autonomous;
+package org.tc.autonomous.hullmods;
 
 import com.fs.starfarer.api.combat.BaseHullMod;
 import com.fs.starfarer.api.combat.ShipAPI;
