@@ -207,13 +207,19 @@ public class AutonomousCommandsPlugin implements EveryFrameCombatPlugin {
 		CombatTaskManagerAPI taskManager = fleetManager.getTaskManager(false);
 		CombatFleetManagerAPI.AssignmentInfo assignment = taskManager.getAssignmentFor(ship);
 		if (assignment == null || assignment.getType() != CombatAssignmentType.RETREAT) {
-			LOG.info(ship.getName() + " retreating [defensive] (" + reason + ")");
+			boolean direct = false;
+			String retreatType = "defensive";
+			if (ship.getVariant().hasHullMod("autonomous_direct_retreat")) {
+				direct = true;
+				retreatType = "direct";
+			}
+			LOG.info(ship.getName() + " retreating [" + retreatType + "] (" + reason + ")");
 			String message = reason + " - retreating ...";
 			DeployedFleetMemberAPI member = fleetManager.getDeployedFleetMember(ship);
 			//Global.getCombatEngine().getCombatUI().addMessage(1, member, FRIEND_COLOR, ship.getName(), TEXT_COLOR, ": ", MESSAGE_COLOR, message);
 			addShipMessage(member.getMember(), MESSAGE_COLOR, message);
 			// TODO: Change retreat type based on user preference
-			taskManager.orderRetreat(member, false, false);
+			taskManager.orderRetreat(member, false, direct);
 		}
 	}
 

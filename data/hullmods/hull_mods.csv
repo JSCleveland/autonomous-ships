@@ -9,6 +9,7 @@ name,id,unlocked,hidden,cost_frigate,cost_dest,cost_cruiser,cost_capital,script,
 "[Auto] Retreat when idle",autonomous_retreat_idle,TRUE,,0,0,0,0,com.fs.starfarer.api.combat.BaseHullMod,"Forces the ship to retreat when it does not have any specific order to follow.
 
 This will only happen after the first contact with the enemy fleet.",graphics/icons/skills/advanced_tactics.png
+"[Auto] Use 'Direct Retreat'",autonomous_direct_retreat,TRUE,,0,0,0,0,org.tc.autonomous.hullmods.DirectRetreatHullMod,"Changes the automatic retreat type to 'Direct' (the ship will run away full speed instead of backing away slowly)",graphics/autonomous/direct_retreat.png
 "[AS Personality] Timid",autonomous_personality_timid,TRUE,,0,0,0,0,org.tc.autonomous.hullmods.PersonalityTimidHullMod,"Makes the ship act like it is piloted by a Timid officer.",graphics/autonomous/personality_timid.png
 "[AS Personality] Cautious",autonomous_personality_cautious,TRUE,,0,0,0,0,org.tc.autonomous.hullmods.PersonalityCautiousHullMod,"Makes the ship act like it is piloted by a Cautious officer.",graphics/autonomous/personality_cautious.png
 "[AS Personality] Aggressive",autonomous_personality_aggressive,TRUE,,0,0,0,0,org.tc.autonomous.hullmods.PersonalityAggressiveHullMod,"Makes the ship act like it is piloted by an Aggressive officer.",graphics/autonomous/personality_aggressive.png
